@@ -18,7 +18,7 @@ do_1000s:       blt         x12, x14, load_100s     # If number is less than 100
                 j           do_1000s                # Check the 1000s digit again
 
 load_100s:      li          x14, 100                # Load new branch check value
-                mv          x13, x11                # Put the thousands digit in x11
+                mv          x11, x13                # Put the thousands digit in x11
                 slli        x11, x11, 12            # Shift 1000s digit to correct place
                 mv          x13, x0                 # Clear digit counter
 do_100s:        blt         x12, x14, load_10s      # Done if number < 100
@@ -43,7 +43,8 @@ do_1s:          beqz        x12, done               # Done if number is zero
                 addi        x12, x12, -1            # Subtract 1
                 j           do_1s                   # Check 1s digit again
 
-done:           lw          x14, 8(sp)              # Pop x14
+done:           or          x11, x11, x13           # Combine 1s with the rest
+                lw          x14, 8(sp)              # Pop x14
                 lw          x13, 4(sp)              # Pop x13
                 lw          x12, 0(sp)              # Pop x12
                 addi        sp, sp, 12              # Reset stack pointer
