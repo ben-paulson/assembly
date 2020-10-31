@@ -1,6 +1,13 @@
 #--------------------------------------
 # Sorts the nibbles in x25 from largest
 # (leftmost) to smallest (rightmost).
+# 
+# 1. Store nibbles as bytes in memory
+# 2. Do the sorting in memory (so that
+#    the subroutine could be easily
+#    adapted to sort more than 8 
+#    numbers at a time).
+# 3. Load nibbles back into x25
 #--------------------------------------
 
 sort_nibbles:
@@ -13,7 +20,7 @@ init:           addi        sp, sp, -32             # Adjust sp
                 sw          x20, 20(sp)             # Push x20
                 sw          x21, 24(sp)             # Push x21
                 sw          x22, 28(sp)             # Push x22
-                li          x15, 0x0000A000         # Arbitrary data address
+                li          x15, 0x00006000         # Arbitrary data address
                 li          x16, 8                  # Number of nibbles
 
 store:          beqz        x16, sort_init1         # If done storing all nibbles
@@ -27,7 +34,7 @@ store:          beqz        x16, sort_init1         # If done storing all nibble
 sort_init1:     li          x16, 8                  # Restore number of nibbles
                 li          x18, 0                  # Loop counter #1
 sort_init2:     li          x19, 0                  # Loop counter #2
-                li          x15, 0x0000A000         # Restore addr of stored data
+                li          x15, 0x00006000         # Restore addr of stored data
 sort_out:       beq         x18, x16, load          # Done sorting
                 addi        x20, x16, -1            # Form second loop bound
                 sub         x20, x20, x18           # Finish second loop bound
