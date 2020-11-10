@@ -25,5 +25,5 @@ equal:          addi        x11, x11, -1        # Decrement counter
                 j           db_cnt              # Next check
 
 upd_out:        mv          x20, x16            # Output previous value (same as current)
-                li          x11, 20             # Reset count
+                li          x11, 5              # Reset count
                 j           db_cnt              # Continue debouncing for next change
